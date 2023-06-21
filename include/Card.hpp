@@ -25,6 +25,8 @@ private:
 
 public:
     static Card *draggedCard;
+    sf::Sprite sprite;
+
     Card(sf::Texture *texture, sf::Vector2f initialPosition)
     {
 
@@ -35,8 +37,35 @@ public:
         this->initialPosition = initialPosition;
     }
 
-    sf::Sprite sprite;
+    Card(const Card &other)
+    {
+        this->isHovered = other.isHovered;
+        this->isDragged = other.isDragged;
+        this->isButtonPressed = other.isButtonPressed;
+        this->dragOffset = other.dragOffset;
+        this->initialPosition = other.initialPosition;
+        this->hasBeenPlayed = other.hasBeenPlayed;
+        this->activeAnimations = other.activeAnimations;
+        this->sprite = other.sprite;
+    }
+
+    Card &operator=(Card &&other)
+    {
+        if (this != &other)
+        {
+            this->isHovered = other.isHovered;
+            this->isDragged = other.isDragged;
+            this->isButtonPressed = other.isButtonPressed;
+            this->dragOffset = other.dragOffset;
+            this->initialPosition = other.initialPosition;
+            this->hasBeenPlayed = other.hasBeenPlayed;
+            this->activeAnimations = other.activeAnimations;
+            this->sprite = other.sprite;
+        }
+        return *this;
+    }
+
     std::vector<Animation *> getAnimations() { return activeAnimations; }
 
-    void update(float deltaTime, sf::RenderWindow *window);
+    bool update(float deltaTime, sf::RenderWindow *window);
 };

@@ -1,3 +1,5 @@
+#pragma once
+
 enum
 {
     CARD_ONE = 0,

@@ -29,13 +29,13 @@ void Card::updateAnimations(float deltaTime)
     }
 }
 
-void Card::update(float deltaTime, sf::RenderWindow *window)
+bool Card::update(float deltaTime, sf::RenderWindow *window)
 {
     // Updates animations
     updateAnimations(deltaTime);
 
     if (hasBeenPlayed)
-        return;
+        return false;
 
     bool oldIsHovered = isHovered;
     bool oldIsButtonPressed = isButtonPressed;
@@ -66,7 +66,7 @@ void Card::update(float deltaTime, sf::RenderWindow *window)
     //  Drag card over
 
     if (!duringPropertyAnimation())
-        return;
+        return false;
 
     if (startedToBeDragged)
     {
@@ -87,9 +87,7 @@ void Card::update(float deltaTime, sf::RenderWindow *window)
         if (sf::Mouse::getPosition(*window).y < window->getSize().y / 2)
         {
             hasBeenPlayed = true;
-            float random = (rand() % 21) - 10;
-            std::cout << random << "\n";
-            RotationAnimation *rotAnimation = new RotationAnimation(0.2f, &sprite, random);
+            RotationAnimation *rotAnimation = new RotationAnimation(0.2f, &sprite, (rand() % 21) - 10);
             activeAnimations.push_back(rotAnimation);
             PositionAnimation *posAnimation = new PositionAnimation(0.2f, &sprite, sf::Vector2f(window->getSize().x / 2, window->getSize().y / 3));
             activeAnimations.push_back(posAnimation);
@@ -110,4 +108,6 @@ void Card::update(float deltaTime, sf::RenderWindow *window)
     {
         sprite.setPosition(initialPosition);
     }
+
+    return startedToBeHovered;
 }

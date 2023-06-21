@@ -7,10 +7,10 @@ LINKFLAGS	 = -o main -L"D:/Apps/SFMLlib/lib" -lsfml-graphics-s -lsfml-window-s -
 all: preclean compile link clean run
 
 compile:
-	g++ $(COMPILEFLAGS) -c ${SRC_FILES} -O3
+	g++ $(COMPILEFLAGS) -c ${SRC_FILES} -O3 -std=c++17
 
 link:
-	g++ ${OBJ_FILES} $(LINKFLAGS) -O3
+	g++ ${OBJ_FILES} $(LINKFLAGS) -O3 -std=c++17
 
 clean:
 	del *.o

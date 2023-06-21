@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <iostream>
+#include <optional>
 
 #include "../include/Card.hpp"
 #include "../include/AssetManager.hpp"
@@ -46,8 +47,18 @@ int main()
 
         // UPDATE
         float deltaTime = clock.restart().asSeconds();
-        for (auto &card : hand)
-            card.update(deltaTime, &window);
+        std::optional<Card> card;
+        for (std::vector<Card>::iterator it = hand.end() - 1; it != hand.begin() - 1; it--)
+            if (it->update(deltaTime, &window))
+            {
+                card = *it;
+                it = hand.erase(it);
+            }
+        if (card)
+            hand.push_back(*card);
+
+        // for (auto &card : hand)
+        //     card.update(deltaTime, &window);
 
         //   card3.update(deltaTime, &window);
 
