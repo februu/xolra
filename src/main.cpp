@@ -1,8 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <iostream>
-#include <optional>
 
+#include "../include/Game.hpp"
 #include "../include/Card.hpp"
 #include "../include/AssetManager.hpp"
 #include "../include/CardList.hpp"
@@ -16,14 +16,13 @@ int main()
 
     am.addTexture(CARD_ONE, "assets/card.png");
 
-    std::vector<Card> hand;
+    // create goofy ass vector of pairs {Card card, int z-index}.
+    std::vector<cardPair> hand;
     for (int i = 0; i < 4; i++)
     {
         Card card(am.getPointerToTexture(CARD_ONE), {300.f + i * 300.f, 900.f});
-        hand.push_back(card);
+        hand.push_back({i, card});
     }
-
-    // Card card3("assets/card.png", {600.f, 400.f});
 
     // run the program as long as the window is open
     while (window.isOpen())
@@ -47,26 +46,22 @@ int main()
 
         // UPDATE
         float deltaTime = clock.restart().asSeconds();
-        std::optional<Card> card;
-        for (std::vector<Card>::iterator it = hand.end() - 1; it != hand.begin() - 1; it--)
-            if (it->update(deltaTime, &window))
+        for (auto &card : hand)
+            if (card.card.update(deltaTime, &window))
             {
-                card = *it;
-                it = hand.erase(it);
+                for (auto &card2 : hand)
+                    if (card2.zIndex > card.zIndex)
+                        card2.zIndex -= 1;
+                card.zIndex = hand.size() - 1;
             }
-        if (card)
-            hand.push_back(*card);
-
-        // for (auto &card : hand)
-        //     card.update(deltaTime, &window);
-
-        //   card3.update(deltaTime, &window);
 
         // DRAW
         window.clear(sf::Color(75, 75, 75));
-        for (auto &card : hand)
-            window.draw(card.sprite);
-        // window.draw(card3.sprite);
+        for (int i = 0; i < hand.size(); i++)
+            for (auto &card : hand)
+                if (card.zIndex == i)
+                    window.draw(card.card.sprite);
+
         window.display();
     }
 
