@@ -1,23 +1,41 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "AssetManager.hpp"
+
+enum Scenes
+{
+    SPLASHSCREEN,
+    GAME_MENU,
+    GAME_OPTIONS,
+    GAME_GAME
+};
 
 class Scene
 {
+protected:
+    sf::RenderWindow *window;
+    AssetManager *am;
+
 public:
-    void initialize() {}
-    void update(float deltaTime) {}
-    void draw(sf::RenderWindow *window) {}
-    void deactivate() {}
+    Scene(sf::RenderWindow *window, AssetManager *am)
+    {
+        this->window = window;
+        this->am = am;
+    }
+    virtual void initialize() {}
+    virtual void update(float deltaTime) {}
+    virtual void draw() {}
+    virtual ~Scene() {}
 };
 
 class SceneManager
 {
 private:
-    Scene currentScene;
+    Scene *currentScene = nullptr;
 
 public:
-    void changeScene(int id);
+    void changeScene(Scene *scene);
     void updateCurrentScene(float deltaTime);
-    void drawCurrentScene(sf::RenderWindow *window);
+    void drawCurrentScene();
 };

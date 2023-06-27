@@ -1,22 +1,30 @@
 #include <SFML/Graphics.hpp>
+#include <iostream>
+
+using std::cout;
 
 #include "../include/SceneManager.hpp"
 
-void SceneManager::changeScene(int id)
+void SceneManager::changeScene(Scene *scene)
 {
 
-    currentScene.deactivate();
-    // TODO: Set new current scene.
+    if (currentScene != nullptr)
+        delete currentScene;
 
-    currentScene.initialize();
+    currentScene = scene;
+
+    if (scene == nullptr)
+        return;
+
+    currentScene->initialize();
 }
 
 void SceneManager::updateCurrentScene(float deltaTime)
 {
-    currentScene.update(deltaTime);
+    currentScene->update(deltaTime);
 }
 
-void SceneManager::drawCurrentScene(sf::RenderWindow *window)
+void SceneManager::drawCurrentScene()
 {
-    currentScene.draw(window);
+    currentScene->draw();
 }

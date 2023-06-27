@@ -29,6 +29,14 @@ void Card::updateAnimations(float deltaTime)
     }
 }
 
+void Card::deleteAnimations()
+{
+    for (auto &animation : activeAnimations)
+    {
+        delete animation;
+    }
+}
+
 bool Card::update(float deltaTime, sf::RenderWindow *window)
 {
     // Updates animations

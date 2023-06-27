@@ -65,7 +65,6 @@ public:
         return *this;
     }
 
-    std::vector<Animation *> getAnimations() { return activeAnimations; }
-
     bool update(float deltaTime, sf::RenderWindow *window);
+    void deleteAnimations();
 };
