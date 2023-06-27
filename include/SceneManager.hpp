@@ -11,17 +11,21 @@ enum Scenes
     GAME_GAME
 };
 
+class SceneManager;
+
 class Scene
 {
 protected:
     sf::RenderWindow *window;
     AssetManager *am;
+    SceneManager *sm;
 
 public:
-    Scene(sf::RenderWindow *window, AssetManager *am)
+    Scene(sf::RenderWindow *window, AssetManager *am, SceneManager *sm)
     {
         this->window = window;
         this->am = am;
+        this->sm = sm;
     }
     virtual void initialize() {}
     virtual void update(float deltaTime) {}

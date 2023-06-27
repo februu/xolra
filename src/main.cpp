@@ -3,7 +3,6 @@
 
 #include "../include/AssetManager.hpp"
 #include "../include/SceneManager.hpp"
-#include "../include/GameScene.hpp"
 #include "../include/splashScreenScene.hpp"
 
 int main()
@@ -17,12 +16,8 @@ int main()
     // load all the textures
     am.loadTextures();
 
-    SplashScreenScene *splashScreenScene = new SplashScreenScene(&window, &am);
+    SplashScreenScene *splashScreenScene = new SplashScreenScene(&window, &am, &sm);
     sm.changeScene(splashScreenScene);
-
-    // Create game scene
-    // GameScene *gameScene = new GameScene(&window, &am);
-    // sm.changeScene(gameScene);
 
     // run the program as long as the window is open
     while (window.isOpen())

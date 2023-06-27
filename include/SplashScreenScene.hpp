@@ -12,7 +12,7 @@ private:
     sf::Text text;
 
 public:
-    SplashScreenScene(sf::RenderWindow *window, AssetManager *am) : Scene(window, am) {}
+    SplashScreenScene(sf::RenderWindow *window, AssetManager *am, SceneManager *sm) : Scene(window, am, sm) {}
     ~SplashScreenScene();
     void initialize() override;
     void update(float deltaTime) override;

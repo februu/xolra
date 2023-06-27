@@ -3,6 +3,7 @@
 
 #include "../include/SplashScreenScene.hpp"
 #include "../include/AssetManager.hpp"
+#include "../include/GameScene.hpp"
 
 void SplashScreenScene::initialize()
 {
@@ -18,7 +19,12 @@ void SplashScreenScene::update(float deltaTime)
 {
     elapsedTime += deltaTime;
 
-    if (elapsedTime > 7.f && elapsedTime < 8.f)
+    if (elapsedTime > 9.f)
+    {
+        GameScene *gameScene = new GameScene(window, am, sm);
+        sm->changeScene(gameScene);
+    }
+    else if (elapsedTime > 7.f && elapsedTime < 8.f)
         text.setFillColor(sf::Color(255, 255, 255, 255 - int(255 * (elapsedTime - 7.f))));
 
     else if (elapsedTime > 5.f && elapsedTime < 6.f)
